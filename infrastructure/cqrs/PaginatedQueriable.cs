@@ -1,10 +1,10 @@
-﻿using Domain.BaseDto;
-using Domain.BaseResponse;
+﻿using infrastructure.BaseDto;
+using infrastructure.BaseResponse;
 
 namespace infrastructure.cqrs
 {
-    public interface PaginatedQueriable<ResponseType, RequestType>
+    public interface PaginatedQueriable<ResT, ReqT>
     { 
-         PaginatedResponse<ResponseType> Execute(Request<RequestType> request);
+         PaginatedResponse<ResT> Execute(Request<ReqT> request);
     }
 }

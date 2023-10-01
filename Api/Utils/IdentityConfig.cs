@@ -1,6 +1,7 @@
-﻿using Domain.IdentityEntities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Repository.Database;
 
 namespace Api.Utils
@@ -9,9 +10,19 @@ namespace Api.Utils
     {
         public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
         { 
-            services.AddDbContext<IdentitySqlServer>(option => option.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+            services.AddDbContext<IdentitySqlServer>(option =>
+            {
+                var scsb = new SqlConnectionStringBuilder();
+                scsb.DataSource = ".";
+                scsb.InitialCatalog = "shop";
+                scsb.IntegratedSecurity = true;
+                scsb.TrustServerCertificate = true;
+                scsb.MultipleActiveResultSets = true;
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+                option.UseSqlServer(scsb.ConnectionString); 
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentitySqlServer>()
                 .AddDefaultTokenProviders()
                 .AddRoles<IdentityRole>();

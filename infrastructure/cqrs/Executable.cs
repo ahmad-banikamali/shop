@@ -1,5 +1,5 @@
-﻿using Domain.BaseDto;
-using Domain.BaseResponse;
+﻿using infrastructure.BaseDto;
+using infrastructure.BaseResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;

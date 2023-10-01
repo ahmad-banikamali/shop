@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.BaseDto
+namespace infrastructure.BaseDto
 {
-    public interface Request<T>
-    {
-        T Data { get; set; }  
-    }
+    public delegate T Request <T> (); 
+     
 }

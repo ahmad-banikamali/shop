@@ -3,8 +3,6 @@ using infrastructure.cqrs;
 
 namespace Application.CategoryService.GetCategories
 {
-    public interface IGetCategoriesService<Rs, Rq> : PaginatedQueriable<Rs, Rq> { }
-
-
+    public interface IGetCategoriesService<Rs, Rq> : PaginatedQueriable<Rs, Rq> { } 
 
 }

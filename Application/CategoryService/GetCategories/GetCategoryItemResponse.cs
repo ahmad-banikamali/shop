@@ -1,8 +1,7 @@
 ﻿namespace Application.CategoryService.GetCategories
 {
-    public class GetCategoriesResponse
+    public class GetCategoryItemResponse
     {
-
         public string Name { get; set; }
     }
 

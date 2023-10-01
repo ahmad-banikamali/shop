@@ -1,6 +1,8 @@
 using Api.Utils;
 using Application.CategoryService.GetCategories;
-using infrastructure;
+using Application.Database;
+using Repository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repository.Database;
 
@@ -15,16 +17,23 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(ShopMapper));
 
-//builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.AddIdentityService(builder.Configuration);
 
 builder.Services.AddDbContext<SqlServer>(optionsAction: options => {
-    options.UseSqlServer(connectionString: builder.Configuration.GetConnectionString("SqlServer"));
+    var scsb = new SqlConnectionStringBuilder();
+    scsb.DataSource = ".";
+    scsb.InitialCatalog = "shop";
+    scsb.IntegratedSecurity = true;
+    scsb.TrustServerCertificate = true;
+    scsb.MultipleActiveResultSets = true; 
+
+    options.UseSqlServer(scsb.ConnectionString);
 });
 
-  
-//
 
-builder.Services.AddTransient<IGetCategoriesService<GetCategoriesResponse, GetCategoriesRequest>, GetCategoriesService>();
+//
+builder.Services.AddTransient<DatabaseContext, SqlServer>();
+builder.Services.AddTransient<IGetCategoriesService<GetCategoryItemResponse, GetCategoriesRequest>, GetCategoriesService>();
 
 //
 

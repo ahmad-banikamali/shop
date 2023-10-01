@@ -1,23 +1,35 @@
-﻿using Domain.BaseDto;
-using Domain.BaseResponse;
+﻿using Application.Database;
+using AutoMapper;
+using Domain.Entities;
+using infrastructure;
+using infrastructure.BaseDto;
+using infrastructure.BaseResponse;
 
 namespace Application.CategoryService.GetCategories
 {
-    public class GetCategoriesService : IGetCategoriesService<GetCategoriesResponse, GetCategoriesRequest>
+    public class GetCategoriesService : IGetCategoriesService<GetCategoryItemResponse, GetCategoriesRequest>
     {
-        public PaginatedResponse<GetCategoriesResponse> Execute(Request<GetCategoriesRequest> request)
-        {
-            var requestData = request.Data;
+        private readonly DatabaseContext database;
+        private readonly IMapper mapper;
 
-            return new PaginatedResponse<GetCategoriesResponse>
+        public GetCategoriesService(DatabaseContext database, IMapper mapper)
+        {
+            this.database = database;
+            this.mapper = mapper;
+        }
+
+        public PaginatedResponse<GetCategoryItemResponse> Execute(Request<GetCategoriesRequest> request)
+        {
+            GetCategoriesRequest requestData = request();
+            int x = 0;
+            var data = database.Categories.AsQueryable();
+
+            return new PaginatedResponse<GetCategoryItemResponse>
             {
-                ItemCountInPage = requestData.PageSize,
+                ItemCountInPage = x,
                 MaxItemsPerPage = 300,
                 PageIndex = requestData.PageIndex,
-                Data = new List<GetCategoriesResponse> {
-                    new GetCategoriesResponse {Name = "A"},
-                    new GetCategoriesResponse {Name = "B"},
-                }
+                Data = data.Select(x => mapper.Map<GetCategoryItemResponse>(x)).ToList(),
             };
         }
     }

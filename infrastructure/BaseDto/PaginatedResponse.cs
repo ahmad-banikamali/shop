@@ -1,4 +1,4 @@
-﻿namespace Domain.BaseResponse
+﻿namespace infrastructure.BaseResponse
 {
     public class PaginatedResponse<TEntity>
     {

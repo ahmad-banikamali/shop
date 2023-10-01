@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.BaseResponse
+namespace infrastructure.BaseResponse
 {
 
     public class Response<T>

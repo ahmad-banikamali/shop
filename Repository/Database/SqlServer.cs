@@ -75,10 +75,7 @@ namespace Repository.Database
                 new Category {Id = 20, Name = "صندلی",ParentCategoryId = 4},   
             });*/
 
-            builder.Entity<FilterKey>().HasData(new List<FilterKey> { 
-                new FilterKey {},
-            
-            });
+      
 
             base.OnModelCreating(builder);
         }

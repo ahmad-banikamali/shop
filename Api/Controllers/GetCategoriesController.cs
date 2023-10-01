@@ -1,6 +1,5 @@
 using Application.CategoryService.GetCategories;
-using Domain.BaseDto;
-using Domain.BaseResponse;
+using infrastructure.BaseResponse;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,26 +8,27 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class GetCategoriesController : ControllerBase
     {
- 
-        private readonly ILogger<GetCategoriesController> _logger;
-        private readonly IGetCategoriesService<GetCategoriesResponse, GetCategoriesRequest> service;
 
-        public GetCategoriesController(ILogger<GetCategoriesController> logger , IGetCategoriesService<GetCategoriesResponse, GetCategoriesRequest> service)
+        private readonly ILogger<GetCategoriesController> _logger;
+        private readonly IGetCategoriesService<GetCategoryItemResponse, GetCategoriesRequest> service;
+
+        public GetCategoriesController(ILogger<GetCategoriesController> logger, IGetCategoriesService<GetCategoryItemResponse, GetCategoriesRequest> service)
         {
             _logger = logger;
             this.service = service;
         }
 
-        [HttpGet]
-        public PaginatedResponse<GetCategoriesResponse> Get()
+        [HttpPost]
+        public PaginatedResponse<GetCategoryItemResponse> Get(GetCategoriesRequest x)
         {
-            return service.Execute(new X { Data = new GetCategoriesRequest { PageIndex = 2, PageSize = 3 } });
+            return service.Execute(() => new GetCategoriesRequest
+            {
+                PageSize = x.PageSize,
+                PageIndex = x.PageIndex,
+            });
         }
 
-        class X : Request<GetCategoriesRequest>
-        {
-            public GetCategoriesRequest Data { get; set ; }
-        }
+
     }
 
 
